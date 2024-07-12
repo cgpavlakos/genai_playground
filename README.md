@@ -37,8 +37,7 @@ Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for O
   - This is to do with how I am handling memory
   - Code will be updated once I fix it
 
-## Try out the demo in your Oracle Cloud Tenancy
-
+## Try it Out in Your Oracle Cloud Tenancy
 
 ### Before you start
 
