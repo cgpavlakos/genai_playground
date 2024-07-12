@@ -1,27 +1,11 @@
-# Oracle Generative AI Agents and LLM Playground
+# About
 
-Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for Oracle Cloud Generative AI Service 
+Demo App for Oracle Cloud Generative AI Services 
 
-![diagram](RAG%20Demo%20Diagram.png)
-   
-## About
 - The `RAG Agent` leverages the power of [Oracle's Cloud Data Platform](https://www.oracle.com/data-platform/) to provide you with a seamless and informative retrieval-augmented generation (RAG) chat experience through [Oracle Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm), which is currently in beta. 
 - The `LLM Playground` gives you an opportunity to see [Oracle Cloud Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm) in action. 
 - The UI is Streamlit, an open-source Python framework.
-
-## Generative AI Agent (Beta) Features
-- **Secure & Private:** All data remains confidential within your Oracle Cloud tenancy, benefiting from all of the built-in security features.
-- **Chat with the GenAI Agent:** Have a conversation - ask questions and get insightful answers.
-- **View Citations:** Explore the sources behind the agent's responses to validate the responses are grounded. 
-- **Reset Chat:** A button to clear the session history and start fresh. 
-
-## Underlying Oracle Cloud Data Platform Services
-- **Object Storage:** Stores private data files for the knowledge base with AES256 encryption.
-- **Generative AI Agents (Beta):** Provides the RAG pipeline as a PaaS service. 
-- **Open Search:** Knowledge base holding the private data files, automatically indexed for fast search. 
-- **Generative AI Service:** Can be either shared or dedicated hosting, with your choice of Cohere and Meta for Large Language Model (LLM).
-- **Compute:** A virtual machine hosts the Streamlit app to provide the UI. 
-
+![llm_screenshot](llm.png)
 ## Live Demo App
 [https://genai.pavlakos.cloud](https://genai.pavlakos.cloud/)
 
@@ -30,6 +14,20 @@ Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for O
 - Use **LLM Playground** to chat with foundational models on Oracle Cloud Generative AI Service.
   - You can play with the hyperparamters and change models with the sidebar.
   - Try them out by clicking the links on the sidebar to the left!
+
+## Generative AI Agent (Beta) Features
+- **Secure & Private:** All data remains confidential within your Oracle Cloud tenancy, benefiting from all of the built-in security features.
+- **Chat with the GenAI Agent:** Have a conversation - ask questions and get insightful answers.
+- **View Citations:** Explore the sources behind the agent's responses to validate the responses are grounded. 
+- **Reset Chat:** A button to clear the session history and start fresh. 
+
+## Underlying Architecture
+![diagram](RAG%20Demo%20Diagram.png)
+- **Object Storage:** Stores private data files for the knowledge base with AES256 encryption.
+- **Generative AI Agents (Beta):** Provides the RAG pipeline as a PaaS service. 
+- **Open Search:** Knowledge base holding the private data files, automatically indexed for fast search. 
+- **Generative AI Service:** Can be either shared or dedicated hosting, with your choice of Cohere and Meta for Large Language Model (LLM).
+- **Compute:** A virtual machine hosts the Streamlit app to provide the UI. 
 
 ## Known Issues
 
