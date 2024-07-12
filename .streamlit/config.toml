@@ -1,0 +1,17 @@
+[client]
+toolbarMode = "viewer"
+
+[server]
+port = 8501
+#serverPort = 443
+#serverAddress = "demo.pavlakos.cloud"
+enableCORS = false
+enableXsrfProtection = false
+gatherUsageStats = false
+
+[theme]
+primaryColor="#2C5967" #ocean
+backgroundColor="#F5F4F2" #neutral 1
+secondaryBackgroundColor="#DFDCD8" #neutral 2
+textColor="#312D2A" #obark
+font="sans serif"
