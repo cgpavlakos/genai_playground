@@ -15,6 +15,7 @@ Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for O
 [http://rag.pavlakos.me](https://genai.pavlakos.cloud/)
 
 ![agent_screenshot](agent.png)
+
 ![llm_screenshot](llm.png)
 
 ## Known Issues
