@@ -9,13 +9,9 @@ Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for O
 - Provides an external UI front end for Oracle Cloud Generative AI Agents, currently in beta.
 - Provides an LLM Playground to evaluate differne LLM Models and hyperparameter tuning on Oracle Cloud Generative AI Service
 
-  
 ## Live Demo App
 
 [https://genai.pavlakos.cloud](https://genai.pavlakos.cloud/)
-
-## Screenshots
-![agent_screenshot](agent.png) ![llm_screenshot](llm.png)
 
 ## Known Issues
 
@@ -42,3 +38,6 @@ Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for O
 7. Update .streamlit/secrets.toml with your agent_endpoint_id and compartment_id
 8. Use run.sh to run the demo
 9. Your application will be running on http://server-ip-address:8501
+
+## Screenshots
+![agent_screenshot](agent.png) ![llm_screenshot](llm.png)
