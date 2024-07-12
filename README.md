@@ -5,8 +5,8 @@ Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for O
 ![diagram](RAG%20Demo%20Diagram.png)
    
 ## About
-- The `RAG Agent` leverages the power of `Oracle's Cloud Data Platform` to provide you with a seamless and informative retrieval-augmented generation (RAG) chat experience through `Oracle Generative AI Agents`, which is currently in beta. 
-- The `LLM Playground` gives you an opportunity to see `Oracle Cloud Generative AI` in action. 
+- The `RAG Agent` leverages the power of [Oracle's Cloud Data Platform](https://www.oracle.com/data-platform/) to provide you with a seamless and informative retrieval-augmented generation (RAG) chat experience through [Oracle Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm), which is currently in beta. 
+- The `LLM Playground` gives you an opportunity to see [Oracle Cloud Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm) in action. 
 - The UI is Streamlit, an open-source Python framework.
 
 ## Generative AI Agent (Beta) Features
@@ -39,15 +39,33 @@ Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for O
 
 ## Try out the demo in your Oracle Cloud Tenancy
 
+
 ### Before you start
 
-- You must already have an Generative AI Agents endpoint available
-  - this app only provides a front end.
+- You must have an Oracle Cloud Account subscribed to the Chicago, Frankfurt, or London region
+- You must already have an Generative AI Agents (beta) endpoint available
+  - this app only provides a front end
+  - currently only available with whitelisting in Chicago region
 - You must set up oci config in order to authenticate to the agent endpoint.
 - You must update `.streamlit/secrets.toml`
   - agent_endpoint_id
   - compartment_id
-  - other items as noted in comments 
+  - other items as noted in comments
+
+### Oracle Cloud Free Tier
+- Did you know you can [sign up for an Oracle Cloud Free Tier Account](https://www.oracle.com/cloud/free/)?
+   - You get $300 in credits for 30 days to use on all available services
+   - You get `Always Free Resources` for as long as you want them including but not limited to: 
+      - Oracle Autonmous Database with APEX
+      - NoSQL Database
+      - 2 AMD Compute Instances with 1/8 OCPU and 1 GB RAM each
+      - Up to 4 ARM Compute Instances with a combined total of 4 OCPU and 24 GB of RAM  
+      - 200 GB Block Storage
+      - 20 GB Object and Archive Storage
+      - Security Services including Certificates, Valut and Bastion (managed SSH jumpbox)
+      - Observability Services including Logging, Monitoring, Notifications
+      - Networking Services including VCN, Load Balancer, Site-to-Site VPN, and 10 TB of outbound data transfer per month
+- If you are one of my customers I can get you up to 60 days and $500 in credits. Reach out to me directly and I will get you set up. 
 
 ### Get started
 
