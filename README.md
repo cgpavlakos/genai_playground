@@ -23,9 +23,13 @@ Demo Streamlit App for Oracle Cloud Generative AI Agents and LLM Playgroud for O
 
 ### Before you start
 
-- You must already have an Generative AI Agents endpoint available - this app only provides a front end.
+- You must already have an Generative AI Agents endpoint available
+  - this app only provides a front end.
 - You must set up oci config in order to authenticate to the agent endpoint.
-- You must update .streamlit/secrets.toml with your agent_endpoint_id and compartment_id 
+- You must update .streamlit/secrets.toml
+  - agent_endpoint_id
+  - compartment_id
+  - other items as noted in comments 
 
 ### Get started
 
