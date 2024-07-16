@@ -1,6 +1,7 @@
 import streamlit as st
 import oci
 import genai_agent_service_bmc_python_client
+from urllib.parse import urlparse, unquote
 
 from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
 from langchain.chains import ConversationChain 
@@ -15,15 +16,13 @@ endpoint = st.secrets["endpoint"]
 agent_endpoint_id = st.secrets["agent_endpoint_id"]
 compartment_id = st.secrets["compartment_id"]
 
-st.session_state.current_page = "page"
-# Get the current page from query parameters
-st.query_params.page = "RAG_Agent"
-current_page = st.query_params.page
 
-# Compare with previous page and clear session state if it changed
-if current_page != st.session_state.current_page:
-    st.session_state.clear() 
-    st.session_state.current_page = current_page
+if st.session_state.get("page", "RAG") != st.session_state.current_page:
+    # Clear all session state data
+    st.session_state.clear()
+
+    # Store the current page for the next comparison
+    st.session_state.current_page = st.session_state.get("page", "RAG")
 
 logo_image_path = st.secrets["logo"] 
 st.logo(logo_image_path)  
@@ -100,6 +99,7 @@ if user_input := st.chat_input("Type your message here..."):
      )
         execute_session_response = genai_agent_runtime_client.execute_session(agent_endpoint_id, st.session_state.session_id, execute_session_details)
 
+       
     # Display agent response
     if execute_session_response.status == 200:
         response_content = execute_session_response.data.message.content
@@ -107,11 +107,27 @@ if user_input := st.chat_input("Type your message here..."):
         with st.chat_message("assistant", avatar="o.png"):
             st.markdown(response_content.text)
      # Display citations
-        if response_content.citations:
-         with st.expander("Citations"):  # Collapsable section
+    if response_content.citations:
+        with st.expander("Citations"):
             for i, citation in enumerate(response_content.citations, start=1):
-                st.write(f"**Citation {i}:**")  # Add citation number
-                st.markdown(f"**Source:** [{citation.source_location.url}]({citation.source_location.url})") 
-                st.text_area("Citation Text", value=citation.source_text, height=200) # Use st.text_area for better formatting   
+                st.write(f"**Citation {i}:**")
+
+                # # Extract the domain name for a friendlier display
+                # parsed_url = urlparse(citation.source_location.url)
+                # display_path = parsed_url.netloc
+
+                # Extract the path after '/o/' and decode
+                parsed_url = urlparse(citation.source_location.url)
+                path_parts = parsed_url.path.split("/o/")  
+                if len(path_parts) > 1:
+                    display_path = unquote(path_parts[1])
+                else:
+                    display_path = parsed_url.netloc  # Fallback to domain if '/o/' not found
+
+                # Use Markdown for a cleaner link presentation
+                st.markdown(f"**Source:** [{display_path}]({citation.source_location.url})") 
+
+                # Use st.text_area for better formatting of the citation text
+                st.text_area("Citation Text", value=citation.source_text, height=200) 
     else:
         st.error(f"API request failed with status: {execute_session_response.status}")
