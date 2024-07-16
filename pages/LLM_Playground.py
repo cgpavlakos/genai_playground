@@ -26,16 +26,12 @@ endpoint = st.secrets["endpoint"]
 compartment_id = st.secrets["compartment_id"]
 llm_endpoint = st.secrets["llm_endpoint"]
 
-#this ensures that chat history does not "leak" from one page to the other
-st.session_state.current_page = "not null"
-# Get the current page from query parameters"
-st.query_params.page = "LLM_Playground"
-current_page = st.query_params.page
+if st.session_state.get("page", "LLM") != st.session_state.current_page:
+    # Clear all session state data
+    st.session_state.clear()
 
-# Compare with previous page and clear session state if it changed
-if current_page != st.session_state.current_page:
-    st.session_state.clear() 
-    st.session_state.current_page = current_page
+    # Store the current page for the next comparison
+    st.session_state.current_page = st.session_state.get("page", "LLM")
 
 # Streamlit UI
 st.header("Oracle LLM Playground")
@@ -143,17 +139,24 @@ if "messages" not in st.session_state:
     st.session_state.messages = [INIT_MESSAGE]
     conv_chain = init_conversationchain()
 
-# User input
-if prompt := st.chat_input("Type your message here..."):
-    st.session_state.messages.append({"role": "user", "content": prompt, "avatar": AVATAR_MAPPING.get("user")})
-
-    # Get and append assistant's response to the messages state
-    with st.chat_message("assistant", avatar="o.png"):
-        with st.spinner("Thinking..."):
-            full_response = generate_response(conv_chain, prompt)
-            st.session_state.messages.append({"role": "assistant", "content": full_response, "avatar": "o.png"})
-
-# Display all chat messages
+# Display chat messages
 for message in st.session_state.messages:
-    with st.chat_message(message["role"], avatar=AVATAR_MAPPING.get(message["role"], "o.png")):
+    avatar = AVATAR_MAPPING.get(message["role"], "o.png")  # Default to "o.png" if not found
+    with st.chat_message(message["role"], avatar=avatar):
         st.markdown(message["content"])
+
+# User input
+if user_input := st.chat_input("Type your message here..."):
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    with st.chat_message("user", avatar=":material/record_voice_over:"):
+        st.markdown(user_input)
+
+    #Display a spinner while waiting for the response
+    with st.spinner("Thinking..."):
+        full_response = generate_response(conv_chain, user_input)
+        
+
+    #display agent response
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
+    with st.chat_message("assistant", avatar="o.png"):
+        st.markdown(full_response)
