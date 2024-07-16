@@ -1,6 +1,7 @@
 import streamlit as st
 import oci
 import genai_agent_service_bmc_python_client
+import random
 from urllib.parse import urlparse, unquote
 
 from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
@@ -13,7 +14,7 @@ from langchain.memory.chat_message_histories import StreamlitChatMessageHistory
 CONFIG_PROFILE = "DEFAULT" #DEFAULT or PUBSEC06
 config = oci.config.from_file()
 endpoint = st.secrets["endpoint"]
-agent_endpoint_id = st.secrets["agent_endpoint_id"]
+#agent_endpoint_id = st.secrets["agent_endpoint_2"]
 compartment_id = st.secrets["compartment_id"]
 
 
@@ -33,11 +34,34 @@ AVATAR_MAPPING = {
 }
 
 with st.sidebar:
+   
+    
+    # Dynamically build agent options from secrets.toml
+    agent_options = {}
+    for key, value in st.secrets.items():
+        if key.startswith("agent_endpoint_"):  # Filter for agent keys
+            display_name = key.replace("agent_endpoint_", "").replace("_", " ").title() # Format display name
+            agent_options[display_name] = value  # Add to the options dictionary
+
+    # Randomly choose an index for the default agent
+    agent_display_names = list(agent_options.keys())
+    random_index = random.randrange(len(agent_display_names))
+
+    selected_display_name = st.selectbox(
+        "Choose your desired Agent Endpoint:",
+        list(agent_options.keys()),  # Use keys as display names
+        index=random_index
+    )
+
+    agent_endpoint_id = agent_options[selected_display_name]
+    
     if st.button("Reset Chat", type="primary", use_container_width=True, help="Reset chat history and clear screen"):
             st.session_state.messages = []  
+            agent_endpoint_id = agent_options[selected_display_name]
             st.session_state.session_id = None  
             st.toast("Chat reset!")  
-            st.rerun()
+            #st.rerun()
+
     st.info("This RAG agent is designed to answer questions related to the documents in its knowledge base of Oracle Cloud services and US Federal Government policies and guidance. If there is no reference it can pull from, it will tell you it can not answer the question.")
     st.info('Try asking "What is m-21-31?"')
 
