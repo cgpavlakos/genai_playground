@@ -31,9 +31,7 @@ Demo App for Oracle Cloud Generative AI Services
 
 ## Known Issues
 
-- LLM Playground does not display chat history properly
-  - This is to do with how I am handling memory
-  - Code will be updated once I fix it
+- ~~LLM Playground does not display chat history properly~~ fixed
 
 ## Try it Out in Your Oracle Cloud Tenancy
 
