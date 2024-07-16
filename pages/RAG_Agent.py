@@ -60,7 +60,7 @@ with st.sidebar:
     
     if st.button("Reset Chat", type="primary", use_container_width=True, help="Reset chat history and clear screen"):
             st.session_state.messages = []  
-            agent_endpoint_id = agent_options[selected_display_name]
+     #       agent_endpoint_id = agent_options[selected_display_name]
             st.session_state.session_id = None  
             st.toast("Chat reset!")  
             #st.rerun()
