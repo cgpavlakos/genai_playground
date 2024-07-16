@@ -34,24 +34,27 @@ AVATAR_MAPPING = {
 }
 
 with st.sidebar:
-   
-    
     # Dynamically build agent options from secrets.toml
     agent_options = {}
     for key, value in st.secrets.items():
-        if key.startswith("agent_endpoint_"):  # Filter for agent keys
-            display_name = key.replace("agent_endpoint_", "").replace("_", " ").title() # Format display name
-            agent_options[display_name] = value  # Add to the options dictionary
-
-    # Randomly choose an index for the default agent
+        if key.startswith("agent_endpoint_"): 
+            display_name = key.replace("agent_endpoint_", "").replace("_", " ").title()
+            agent_options[display_name] = value 
+            
     agent_display_names = list(agent_options.keys())
-    random_index = random.randrange(len(agent_display_names))
+
+    # Initialize selected_display_name in session state if not present
+    if "selected_display_name" not in st.session_state:
+        st.session_state.selected_display_name = random.choice(agent_display_names)
 
     selected_display_name = st.selectbox(
         "Choose your desired Agent Endpoint:",
-        list(agent_options.keys()),  # Use keys as display names
-        index=random_index
+        agent_display_names,
+        index=agent_display_names.index(st.session_state.selected_display_name)  # Find index of selected agent
     )
+    
+    # Update selected_display_name in session state
+    st.session_state.selected_display_name = selected_display_name
 
     agent_endpoint_id = agent_options[selected_display_name]
     
