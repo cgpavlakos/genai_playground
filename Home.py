@@ -7,15 +7,14 @@ st.set_page_config(page_title="GenAI Agent",
 logo_image_path = st.secrets["logo"] 
 st.logo(logo_image_path)  
 
-# Get the current page from query parameters
-st.session_state.current_page ="Home"
-st.query_params.page = "Home"
-current_page = st.query_params.page
+st.session_state.current_page = st.session_state.get("page", "home")
+if st.session_state.get("page", "Home") != st.session_state.current_page:
+    # Clear all session state data
+    st.session_state.clear()
 
-# Compare with previous page and clear session state if it changed
-if current_page != st.session_state.current_page:
-    st.session_state.clear() 
-    st.session_state.current_page = current_page
+    # Store the current page for the next comparison
+    st.session_state.current_page = st.session_state.get("page", "Home")
+
 with st.sidebar:
    st.info("Check out the [architecure diagram](https://raw.githubusercontent.com/cgpavlakos/genai_agent/main/RAG%20Demo%20Diagram.png), [product page](https://www.oracle.com/artificial-intelligence/generative-ai/agents/), and [source code](https://github.com/cgpavlakos/genai_agent/tree/main) to see how the Oracle Data Platform and Generative AI come together for this demo of a fully secure and private RAG chatbot.")
 st.markdown(
