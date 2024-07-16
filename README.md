@@ -5,7 +5,7 @@ Demo App for Oracle Cloud Generative AI Services
 - The `RAG Agent` leverages the power of [Oracle's Cloud Data Platform](https://www.oracle.com/data-platform/) to provide you with a seamless and informative retrieval-augmented generation (RAG) chat experience through [Oracle Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm), which is currently in beta. 
 - The `LLM Playground` gives you an opportunity to see [Oracle Cloud Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm) in action. 
 - The UI is Streamlit, an open-source Python framework.
-![llm_screenshot](llm.png)
+![llm_screenshot](documentation/llm.png)
 ## Live Demo App
 [https://genai.pavlakos.cloud](https://genai.pavlakos.cloud/)
 
@@ -22,7 +22,7 @@ Demo App for Oracle Cloud Generative AI Services
 - **Reset Chat:** A button to clear the session history and start fresh. 
 
 ## Underlying Architecture
-![diagram](RAG%20Demo%20Diagram.png)
+![diagram](documentation/RAG%20Demo%20Diagram.png)
 - **Object Storage:** Stores private data files for the knowledge base with AES256 encryption.
 - **Generative AI Agents (Beta):** Provides the RAG pipeline as a PaaS service. 
 - **Open Search:** Knowledge base holding the private data files, automatically indexed for fast search. 
@@ -66,8 +66,8 @@ Demo App for Oracle Cloud Generative AI Services
 
 0. Set up Generative AI Agents service and note the agent_endpoint_id
 2. Make sure you have port 8501 open on security list
-3. Launch a VM with ubuntu base image and attach setup.sh as cloud-init script
-4. SSH into your VM (ubuntu@ipaddress) and check the log at /home/ubuntu/genai_agent_setup.log
+3. Launch a VM with Oracle Linux 8 image and attach setup.sh as cloud-init script
+4. SSH into your VM (opc@ipaddress) and check the log at /home/opc/genai_agent_setup.log
 5. Run setup.sh if you did not add it as cloud-init script
 6. Set up OCI config
 7. Update `.streamlit/secrets.toml` with your agent_endpoint_id and compartment_id
@@ -75,6 +75,6 @@ Demo App for Oracle Cloud Generative AI Services
 9. Your application will be running on http://server-ip-address:8501
 
 ## Screenshots
-![agent_screenshot](agent.png) ![llm_screenshot](llm.png)
+![agent_screenshot](documentation/agent.png) ![llm_screenshot](documentation/llm.png)
 
 
