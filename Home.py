@@ -16,7 +16,7 @@ if st.session_state.get("page", "Home") != st.session_state.current_page:
     st.session_state.current_page = st.session_state.get("page", "Home")
 
 with st.sidebar:
-   st.info("Check out the [architecure diagram](https://raw.githubusercontent.com/cgpavlakos/genai_agent/main/RAG%20Demo%20Diagram.png), [product page](https://www.oracle.com/artificial-intelligence/generative-ai/agents/), and [source code](https://github.com/cgpavlakos/genai_agent/tree/main) to see how the Oracle Data Platform and Generative AI come together for this demo of a fully secure and private RAG chatbot.")
+   st.info("Check out the [architecure diagram](https://raw.githubusercontent.com/cgpavlakos/genai_agent/main/RAG%20Demo%20Diagram.png), [product page](https://www.oracle.com/artificial-intelligence/generative-ai/agents/), and [source code](https://github.com/cgpavlakos/genai_playground) to see how the Oracle Data Platform and Generative AI come together for this demo of a fully secure and private RAG chatbot.")
 st.markdown(
     """
     ## What can I do here?
