@@ -1,15 +1,25 @@
-from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
-from langchain.chains import ConversationChain 
-from langchain.memory import ConversationBufferWindowMemory
-from langchain.prompts.prompt import PromptTemplate
-from langchain.memory.chat_message_histories import StreamlitChatMessageHistory
-from langchain_core.prompts import ChatPromptTemplate
-from langchain.schema import HumanMessage
-
+# Streamlit and UI imports
 import streamlit as st
-import oci 
-import time
+import datetime
+import pytz
+from datetime import timedelta
 import yaml
+from urllib.parse import urlparse, unquote 
+
+# OCI-related imports
+import oci
+from oci.config import from_file
+from oci.object_storage import ObjectStorageClient
+from oci.object_storage.models import CreatePreauthenticatedRequestDetails
+
+# LangChain-related imports (grouped together and organized alphabetically)
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferWindowMemory
+from langchain.memory.chat_message_histories import StreamlitChatMessageHistory
+from langchain_community.chat_models.oci_generative_ai import ChatOCIGenAI
+from langchain.prompts.prompt import PromptTemplate
+from langchain.schema import HumanMessage  # Added this for clarity 
+
 
 AVATAR_MAPPING = {
 "user": st.secrets["user_avatar"],
@@ -75,28 +85,36 @@ with st.sidebar:
     st.markdown("## LLM Model Selection")
     LLM_MODEL = st.selectbox("Choose your desired LLM model:", options, index=0, 
                             help="Defaults to cohere.command-r-16k")
-    st.markdown("## Inference Parameters")
-    TEMPERATURE = st.slider("Temperature", min_value=0.0,
-                            max_value=1.0, value=0.3, step=0.1,
-                            help="A number that sets the randomness of the generated output. A lower temperature means less random generations. Use lower numbers for tasks such as question answering or summarizing. High temperatures can generate hallucinations or factually incorrect information.")
-    TOP_P = st.slider("Top-P", min_value=0.0,
-                    max_value=1.0, value=0.75, step=0.01,
-                    help="To eliminate tokens with low likelihood, assign p a minimum percentage for the next token's likelihood. For example, when p is set to 0.75, the model eliminates the bottom 25 percent for the next token. Set to 1.0 to consider all tokens and set to 0 to disable. If both k and p are enabled, p acts after k.")
-    TOP_K = st.slider("Top-K", min_value=1,
-                    max_value=500, value=0, step=5,
-                    help="A sampling method in which the model chooses the next token randomly from the top k most likely tokens. A higher value for k generates more random output, which makes the output text sound more natural.")
-    MAX_TOKENS = st.slider("Max Tokens", min_value=0,
-                        max_value=4000, value=500, step=8,
-                        help="The maximum number of output tokens that the model will generate for the response. A token is generally a few letters.")
-    FREQUENCY_PENALTY = st.slider("Frequency Penalty", min_value=0.0,
-                            max_value=1.0, value=0.0, step=0.1,
-                            help="To reduce repetitiveness of generated tokens, this number penalizes new tokens based on their frequency in the generated text so far. Greater numbers encourage the model to use new tokens, while lower numbers encourage the model to repeat the tokens.")
-    PRESENCE_PENALTY = st.slider("Presence Penalty", min_value=0.0,
-                            max_value=1.0, value=0.0, step=0.1,
-                            help="To reduce repetitiveness of generated tokens, this number penalizes new tokens based on whether they've appeared in the generated text so far. Greater numbers encourage the model to use new tokens, while lower numbers encourage the model to repeat the tokens.")
-    MEMORY_WINDOW = st.slider("Memory Window", min_value=0,
-                            max_value=10, value=3, step=1,
-                            help="How many interactions to keep in memory.")
+    
+    if "dropdown_visible" not in st.session_state:
+        st.session_state.dropdown_visible = False  # Start with the dropdown visible
+
+    # Toggle button to show/hide the dropdown
+    
+    on = st.toggle("Show Parameter Tuning", value=True)
+    if on:
+        st.markdown("## Inference Parameters")
+        TEMPERATURE = st.slider("Temperature", min_value=0.0,
+                                max_value=1.0, value=0.3, step=0.1,
+                                help="A number that sets the randomness of the generated output. A lower temperature means less random generations. Use lower numbers for tasks such as question answering or summarizing. High temperatures can generate hallucinations or factually incorrect information.")
+        TOP_P = st.slider("Top-P", min_value=0.0,
+                        max_value=1.0, value=0.75, step=0.01,
+                        help="To eliminate tokens with low likelihood, assign p a minimum percentage for the next token's likelihood. For example, when p is set to 0.75, the model eliminates the bottom 25 percent for the next token. Set to 1.0 to consider all tokens and set to 0 to disable. If both k and p are enabled, p acts after k.")
+        TOP_K = st.slider("Top-K", min_value=1,
+                        max_value=500, value=0, step=5,
+                        help="A sampling method in which the model chooses the next token randomly from the top k most likely tokens. A higher value for k generates more random output, which makes the output text sound more natural.")
+        MAX_TOKENS = st.slider("Max Tokens", min_value=0,
+                            max_value=4000, value=500, step=8,
+                            help="The maximum number of output tokens that the model will generate for the response. A token is generally a few letters.")
+        FREQUENCY_PENALTY = st.slider("Frequency Penalty", min_value=0.0,
+                                max_value=1.0, value=0.0, step=0.1,
+                                help="To reduce repetitiveness of generated tokens, this number penalizes new tokens based on their frequency in the generated text so far. Greater numbers encourage the model to use new tokens, while lower numbers encourage the model to repeat the tokens.")
+        PRESENCE_PENALTY = st.slider("Presence Penalty", min_value=0.0,
+                                max_value=1.0, value=0.0, step=0.1,
+                                help="To reduce repetitiveness of generated tokens, this number penalizes new tokens based on whether they've appeared in the generated text so far. Greater numbers encourage the model to use new tokens, while lower numbers encourage the model to repeat the tokens.")
+        MEMORY_WINDOW = st.slider("Memory Window", min_value=0,
+                                max_value=10, value=3, step=1,
+                                help="How many interactions to keep in memory.")
 
 # Initialize the ConversationChain
 def init_conversationchain():
