@@ -2,7 +2,7 @@
 
 Demo App for Oracle Cloud Generative AI Services 
 
-- The `RAG Agent` leverages the power of [Oracle's Cloud Data Platform](https://www.oracle.com/data-platform/) to provide you with a seamless and informative retrieval-augmented generation (RAG) chat experience through [Oracle Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm), which is currently in beta. 
+- The `RAG Agent` leverages the power of [Oracle's Cloud Data Platform](https://www.oracle.com/data-platform/) to provide you with a seamless and informative retrieval-augmented generation (RAG) chat experience through [Oracle Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm).
 - The `LLM Playground` gives you an opportunity to see [Oracle Cloud Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm) in action. 
 - The UI is Streamlit, an open-source Python framework.
 ![llm_screenshot](documentation/llm.png)
@@ -24,7 +24,7 @@ Demo App for Oracle Cloud Generative AI Services
 ## Underlying Architecture
 ![diagram](documentation/RAG%20Demo%20Diagram.png)
 - **Object Storage:** Stores private data files for the knowledge base with AES256 encryption.
-- **Generative AI Agents (Beta):** Provides the RAG pipeline as a PaaS service. 
+- **Generative AI Agents:** Provides the RAG pipeline as a PaaS service. 
 - **Open Search:** Knowledge base holding the private data files, automatically indexed for fast search. 
 - **Generative AI Service:** Can be either shared or dedicated hosting, with your choice of Cohere and Meta for Large Language Model (LLM).
 - **Compute:** A virtual machine hosts the Streamlit app to provide the UI. 
@@ -38,7 +38,7 @@ Demo App for Oracle Cloud Generative AI Services
 ### Before you start
 
 - You must have an Oracle Cloud Account subscribed to the Chicago, Frankfurt, or London region
-- You must already have an Generative AI Agents (beta) endpoint available
+- You must already have an Generative AI Agents endpoint available
   - this app only provides a front end
   - currently only available with whitelisting in Chicago region
 - You must set up oci config in order to authenticate to the agent endpoint.
@@ -69,7 +69,7 @@ Demo App for Oracle Cloud Generative AI Services
 3. Launch a VM with Oracle Linux 8 image and attach setup.sh as cloud-init script
 4. SSH into your VM (opc@ipaddress) and check the log at /home/opc/genai_agent_setup.log
 5. Run setup.sh if you did not add it as cloud-init script
-6. Set up OCI config
+6. Set up [OCI CLI config](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/cliinstall.htm)
 7. Update `.streamlit/secrets.toml` with your agent_endpoint_id and compartment_id
 8. Use run.sh to run the demo
 9. Your application will be running on http://server-ip-address:8501
