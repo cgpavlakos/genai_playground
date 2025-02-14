@@ -23,11 +23,14 @@ from langchain.schema import HumanMessage  # Added this for clarity
 
 AVATAR_MAPPING = {
 "user": st.secrets["user_avatar"],
-"assistant": st.secrets["assisstant_avatar"],
+"assistant": st.secrets["llm_avatar"]
 }
 
+st.set_page_config(page_title="LLM Playground", layout="centered", 
+                   initial_sidebar_state="expanded", menu_items=None)
+
 logo_image_path = st.secrets["logo"] 
-st.logo(logo_image_path)  
+st.logo(logo_image_path, size="large") 
 
 # OCI Configuration
 CONFIG_PROFILE = "DEFAULT" #DEFAULT or PUBSEC06
@@ -39,17 +42,16 @@ llm_endpoint = st.secrets["llm_endpoint"]
 if st.session_state.get("page", "LLM") != st.session_state.current_page:
     # Clear all session state data
     st.session_state.clear()
-
     # Store the current page for the next comparison
     st.session_state.current_page = st.session_state.get("page", "LLM")
 
 # Streamlit UI
-st.header("Oracle LLM Playground")
+st.header("LLM Playground")
 st.subheader("Powered by Oracle Generative AI Service")
 st.info("`This chat does not have access to the RAG Agent's knowledge base. Notice how different the answers are. Use the sidebar to change the LLM model, update parameters, and reset the chat.`")
 
 # Now set up the langchain 
-DEFAULT_CLAUDE_TEMPLATE = """The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.
+DEFAULT_CLAUDE_TEMPLATE = """The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know. Use markdown code blocks whenever writing code back to the user. Use ` not '.
 
 Current conversation:
 {history}
@@ -79,12 +81,12 @@ with st.sidebar:
         st.button("Save Changes", on_click=update_params, type='primary', use_container_width=True) 
     with col2:
         st.button("Reset Chat", on_click=new_chat, type='primary', use_container_width=True)
-    options = ["cohere.command-r-16k", 
-            "cohere.command-r-plus", 
-            "meta.llama-3-70b-instruct"]
+    options = ["cohere.command-r-08-2024", 
+               "cohere.command-r-plus-08-2024",
+               "meta.llama-3.3-70b-instruct"]
     st.markdown("## LLM Model Selection")
     LLM_MODEL = st.selectbox("Choose your desired LLM model:", options, index=0, 
-                            help="Defaults to cohere.command-r-16k")
+                            help="Defaults to cohere command r")
     
     if "dropdown_visible" not in st.session_state:
         st.session_state.dropdown_visible = False  # Start with the dropdown visible
@@ -161,13 +163,16 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     avatar = AVATAR_MAPPING.get(message["role"], "o.png")  # Default to "o.png" if not found
     with st.chat_message(message["role"], avatar=avatar):
-        st.markdown(message["content"])
+        #st.markdown(message["content"])
+        st.markdown(message["content"].replace("#", "\\#"))
+
 
 # User input
 if user_input := st.chat_input("Type your message here..."):
     st.session_state.messages.append({"role": "user", "content": user_input})
     with st.chat_message("user", avatar=":material/record_voice_over:"):
         st.markdown(user_input)
+        #st.markdown(user_input.replace("#", "\\#"))
 
     #Display a spinner while waiting for the response
     with st.spinner("Thinking..."):
@@ -177,4 +182,5 @@ if user_input := st.chat_input("Type your message here..."):
     #display agent response
     st.session_state.messages.append({"role": "assistant", "content": full_response})
     with st.chat_message("assistant", avatar="o.png"):
-        st.markdown(full_response)
+        #st.markdown(full_response)
+        st.markdown(full_response.replace("#", "\\#"))
