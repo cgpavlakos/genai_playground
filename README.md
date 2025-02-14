@@ -1,42 +1,44 @@
 # About
 
-Demo App for Oracle Cloud Generative AI Services 
+ This 4-in-1 demo showcases the power of **Oracle's Cloud Platform** and **AI Services** with real-world utility:
+- The **LLM Playground** shows [**Oracle Cloud Generative AI**](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm) in action. 
+- You can play with the hyperparameters and change models with the sidebar.
+- **USSC Helpline Agent** uses [**Generative AI Agents**](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/home.htm) for a retrieval-augmented generation (RAG) chat.
+    - The documents used are all publicly available on [ussc.gov](https://www.ussc.gov/product-type/primers).
+    - This was created originally as a tailored demo for the customer. 
+- The **Speech to Text** page uses [**OCI Speech**](https://docs.oracle.com/en-us/iaas/Content/speech/home.htm) to transcribe, and [**Generative AI**]((https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm)) to provide a summary. 
+- The **Summarize Document** page uses [**Generative AI**](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm) to provide a summary of any text or PDF file.
+- The UI is Streamlit, an open-source Python framework running on [**OCI Compute**](https://docs.oracle.com/en-us/iaas/Content/Compute/home.htm).
+![llm_screenshot](screenshots/llm.png)
 
-- The `RAG Agent` leverages the power of [Oracle's Cloud Data Platform](https://www.oracle.com/data-platform/) to provide you with a seamless and informative retrieval-augmented generation (RAG) chat experience through [Oracle Generative AI Agents](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/overview.htm).
-- The `LLM Playground` gives you an opportunity to see [Oracle Cloud Generative AI](https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm) in action. 
-- The UI is Streamlit, an open-source Python framework.
-![llm_screenshot](documentation/llm.png)
 ## Live Demo App
-[https://genai.pavlakos.cloud](https://genai.pavlakos.cloud/)
+[https://genai.pavlakos.cloud](https://genai.pavlakos.cloud/) (currently not so live)
 
-- Use **RAG Agent** to chat with an AI that has specialized knowledge of Oracle Cloud for US Government. 
+<!-- - Use **RAG Agent** to chat with an AI that has specialized knowledge of Oracle Cloud for US Government. 
   - Ask it things like `How can Oracle Cloud support my agency's zero trust journey?`
 - Use **LLM Playground** to chat with foundational models on Oracle Cloud Generative AI Service.
   - You can play with the hyperparamters and change models with the sidebar.
-  - Try them out by clicking the links on the sidebar to the left!
+  - Try them out by clicking the links on the sidebar to the left! -->
 
-## Generative AI Agent (Beta) Features
+## Generative AI Agent Features
 - **Secure & Private:** All data remains confidential within your Oracle Cloud tenancy, benefiting from all of the built-in security features.
 - **Chat with the GenAI Agent:** Have a conversation - ask questions and get insightful answers.
 - **View Citations:** Explore the sources behind the agent's responses to validate the responses are grounded. 
-- **Reset Chat:** A button to clear the session history and start fresh. 
 
 ## Underlying Architecture
-![diagram](documentation/RAG%20Demo%20Diagram.png)
-- **Object Storage:** Stores private data files for the knowledge base with AES256 encryption.
-- **Generative AI Agents:** Provides the RAG pipeline as a PaaS service. 
-- **Open Search:** Knowledge base holding the private data files, automatically indexed for fast search. 
-- **Generative AI Service:** Can be either shared or dedicated hosting, with your choice of Cohere and Meta for Large Language Model (LLM).
-- **Compute:** A virtual machine hosts the Streamlit app to provide the UI. 
+![diagram](screenshots/RAG%20Demo%20Diagram.png)
+- [**Object Storage**](https://docs.oracle.com/en-us/iaas/Content/Object/home.htm) stores private data files for the RAG knowledge base and speech to text functionality with AES256 encryption.
+- [**Generative AI Agents**](https://docs.oracle.com/en-us/iaas/Content/generative-ai-agents/home.htm) provides the RAG pipeline as a PaaS service. 
+- [**Open Search**](https://docs.oracle.com/en-us/iaas/Content/search-opensearch/home.htm) is a managed service for the knowledge base, automatically indexed for fast search. 
+- [**Generative AI**](https://docs.oracle.com/en-us/iaas/Content/generative-ai/home.htm) Can be either shared or dedicated hosting, with your choice of Cohere and Meta for Large Language Model (LLM).
+- [**Compute**](https://docs.oracle.com/en-us/iaas/Content/Compute/home.htm) - a E5 Flex (1 OCPU) virtual machine hosts the Streamlit app to provide the UI. 
 
 ## Known Issues
-
-- ~~LLM Playground does not display chat history properly~~ fixed
+- Live Demo App is down
+    - need to rotate SSL certs and update dns
 
 ## Try it Out in Your Oracle Cloud Tenancy
-
 ### Before you start
-
 - You must have an Oracle Cloud Account subscribed to the Chicago, Frankfurt, or London region
 - You must already have an Generative AI Agents endpoint available
   - this app only provides a front end
@@ -63,7 +65,6 @@ Demo App for Oracle Cloud Generative AI Services
 - If you are one of my customers I can get you up to 60 days and $500 in credits. Reach out to me directly and I will get you set up. 
 
 ### Get started
-
 0. Set up Generative AI Agents service and note the agent_endpoint_id
 2. Make sure you have port 8501 open on security list
 3. Launch a VM with Oracle Linux 8 image and attach setup.sh as cloud-init script
@@ -73,8 +74,17 @@ Demo App for Oracle Cloud Generative AI Services
 7. Update `.streamlit/secrets.toml` with your agent_endpoint_id and compartment_id
 8. Use run.sh to run the demo
 9. Your application will be running on http://server-ip-address:8501
+10. Set it up as a service so you can restart it like `sudo systemctl restart streamlit.service`
 
 ## Screenshots
-![agent_screenshot](documentation/agent.png) ![llm_screenshot](documentation/llm.png)
-
-
+### RAG Agent:
+![agent_screenshot](screenshots/agent.png) 
+![agent_screenshot-2](screenshots/citation-1.png) 
+![agent_screenshot-3](screenshots/citation-2.png) 
+### LLM Playground:
+![llm_screenshot](screenshots/llm.png)
+### Speech to Text:
+![stt_screenshot_1](screenshots/transcribe-court-1.png)
+![stt_screenshot_2](screenshots/transcribe-court-2.png)
+### Summarize Document:
+![sum_screenshot_1](screenshots/summarize.png)
