@@ -15,3 +15,9 @@ backgroundColor="#F5F4F2" #neutral 1
 secondaryBackgroundColor="#DFDCD8" #neutral 2
 textColor="#312D2A" #obark
 font="sans serif"
+
+[runner]
+fastReruns = true
+
+[browser]
+gatherUsageStats = false
